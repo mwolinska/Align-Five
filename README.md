@@ -1,4 +1,4 @@
-#Align-Five
+# Align-Five
 
 ## Introduction
 This is a two player game, where the users play 
