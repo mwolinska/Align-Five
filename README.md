@@ -33,18 +33,18 @@ pip3 install -r requirements.txt
 An example run would look like this.
 
 First, a clean board is displayed. 
-![clean_board](./GameScreenshots/clean_board.png)
+![clean_board](./Images/GameScreenshots/clean_board.png)
 
 The first move is made by the user playing white. 
-![clean_board](./GameScreenshots/first_move.png)
+![clean_board](./Images/GameScreenshots/first_move.png)
 
 Then the users alternate to play their moves until one of 
 the four outcomes is achieved
 * 5 stones of one colour are aligned in a row
-![clean_board](./GameScreenshots/win_in_row.png)
+![clean_board](./Images/GameScreenshots/win_in_row.png)
 * 5 stones of one colour are aligned in a column
-![clean_board](./GameScreenshots/win_in_column.png)
+![clean_board](./Images/GameScreenshots/win_in_column.png)
 * 5 stones of one colour are aligned across a diagonal
-![clean_board](./GameScreenshots/win_in_diagonal.png)
+![clean_board](./Images/GameScreenshots/win_in_diagonal.png)
 * All the moves on the board have been taken and the 
 game is a draw
