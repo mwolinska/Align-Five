@@ -3,16 +3,20 @@ from typing import List, Tuple, TYPE_CHECKING
 
 import numpy as np
 
-
 def find_index_of_closest_value(click: int, allowed_positions_list: List[int]) -> int:
     allowed_positions_array = np.asarray(allowed_positions_list)
     closest_position_index = (np.abs(allowed_positions_array - click)).argmin()
     return closest_position_index
 
 @dataclass
-class Position(object):
+class Click(object):
     x: int
     y: int
+
+@dataclass
+class Position(object):
+    row: int
+    column: int
 
 @dataclass
 class Color(object):
