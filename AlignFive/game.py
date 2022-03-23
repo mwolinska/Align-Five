@@ -28,26 +28,25 @@ class AlignFive(object):
         return list_of_players
 
     def has_player_won(self, current_board: GameBoard, move_player: Player, move_address: Position) -> bool:
+        # possible win directions in order:
+        # left, right,
+        # up, down,
+        # left top diagonal, right bottom diagonal,
+        # left bottom diagonal, right top diagonal
 
-        board_subset_for_eval = current_board.board[(move_address.row - 2):(move_address.row + 3), (move_address.column - 2):(move_address.column + 3)]
-        print(board_subset_for_eval)
+        possible_win_directions = [[Position(0, -1), Position(0, 1)],
+                                   [Position(-1, 0), Position(1, 0)],
+                                   [Position(-1, -1), Position(1, 1)],
+                                   [Position(1, -1), Position(-1, 1)],
+       ]
 
-        is_win_mask = board_subset_for_eval == move_player.player_number
+        for dimension in possible_win_directions:
+            stones_in_dimension = 0
+            for direction in dimension:
+                stones_in_dimension += current_board.count_neighbours(move_address, direction, move_player)
 
-        for i in range(5):
-            # is there a win in each row?
-            if np.all(is_win_mask[:, i]):
-                print("Player " + str(move_player.player_number) + " has won the game")
+            if stones_in_dimension == 4:
                 return True
-            # is there a win in each column?
-            elif np.all(is_win_mask[i, :]):
-                print("Player " + str(move_player.player_number) + " has won the game")
-                return True
-        # Check if there is a win across the diagonals
-        # if is_win_mask[0][0] == is_win_mask[1][1] == is_win_mask[2][2] == True:
-        #     return True
-        # elif is_win_mask[2][0] == is_win_mask[1][1] == is_win_mask[0][2] == True:
-        #     return True
 
         return False
 
