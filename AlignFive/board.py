@@ -41,11 +41,30 @@ class GameBoard(object):
         self.board[move.row][move.column] = player.player_number
         print(self.board)
 
-    def get_board_subset_for_eval(self, move: Position):
-        move_nearest_neighbours = self.board[(move.row - 1):(move.row + 2), (move.column - 1):(move.column + 2)]
-        mask = move_nearest_neighbours ==
-        print(a)
+    # def get_board_subset_for_eval(self, move: Position):
+    #     move_nearest_neighbours = self.board[(move.row - 1):(move.row + 2), (move.column - 1):(move.column + 2)]
+    #     mask = move_nearest_neighbours ==
+    #     print(a)
 
+    def count_neighbours(self, move_address: Position, check_direction: Position, player: Player):
+
+        is_neighbour_same_colour = True
+        n_neighbouring_player_stones = 0
+        next_field_increment = 1
+
+        while is_neighbour_same_colour:
+            next_row = move_address.row + (next_field_increment * check_direction.row)
+            next_column = move_address.column + (next_field_increment * check_direction.column)
+            print(next_row, next_column)
+            neighbour_value = self.board[next_row][next_column]
+
+            if neighbour_value == player.player_number:
+                n_neighbouring_player_stones += 1
+                next_field_increment += 1
+            else:
+                is_neighbour_same_colour = False
+
+        return n_neighbouring_player_stones
 
     # def select_best_position(self):
     #     current_game_board = self.board.copy()
