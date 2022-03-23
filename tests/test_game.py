@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 
 from AlignFive.board import GameBoard
@@ -6,8 +7,9 @@ from AlignFive.player import Player
 from AlignFive.utils import Color, Position
 
 test_game_0 = AlignFive()
-test_array_0 = GameBoard()
-test_array_0.board = [
+test_player = Player(2, Color(255, 255, 255))
+test_board_0 = GameBoard()
+test_board_0.board = np.array([
     [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
     [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
     [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
@@ -27,17 +29,106 @@ test_array_0.board = [
     [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
     [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
     [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
-]
+])
+
+test_board_1 = GameBoard()
+test_board_1.board = np.array([
+    [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+    [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+    [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+    [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+    [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+    [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+    [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+    [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+    [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+    [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+    [2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.],
+    [2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.],
+    [2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.],
+    [2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.],
+    [2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.],
+    [2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.],
+    [2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.],
+    [2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.],
+    [2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2., 2.],
+])
+
+test_board_2 = GameBoard()
+test_board_2.board = np.array(
+    [
+        [1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1],
+        [2, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 2, 2, 1, 2],
+        [1, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 1, 1],
+        [2, 2, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 1, 1],
+        [1, 2, 1, 2, 2, 2, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 1],
+        [1, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
+        [1, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 1, 2, 2, 1, 2],
+        [2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 1, 1, 2, 1, 2, 1, 1, 1],
+        [1, 1, 2, 2, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 2, 2],
+        [1, 1, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 1],
+        [1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 1],
+        [2, 1, 2, 1, 2, 2, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 1, 2, 2],
+        [1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 2, 1, 1, 2, 1],
+        [1, 2, 2, 1, 2, 2, 1, 1, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1],
+        [2, 2, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
+        [1, 2, 2, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2, 1, 1, 2],
+        [2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1],
+        [1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 2, 1, 2, 2, 1, 1, 2],
+        [2, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2]
+    ]
+)
 
 @pytest.mark.parametrize(["func_input", "expected_value"],
      [
-        [(test_game_0, test_array_0, Player(2, Color(0, 0, 0)), Position(4, 3)), True],
-        [(test_game_0, test_array_0, Player(2, Color(0, 0, 0)), Position(4, 13)), True],
-        [(test_game_0, test_array_0, Player(2, Color(0, 0, 0)), Position(7, 3)), False],
+        [test_game_0, [Player(1, Color(0, 0, 0)), Player(2, Color(255, 255, 255))]],
+     ]
+)
+def test_create_list_of_players(func_input, expected_value):
+    test_list_of_players = test_game_0.create_list_of_players()
+
+    assert type(test_list_of_players) == type(expected_value)
+    assert len(test_list_of_players) == len(expected_value)
+
+
+@pytest.mark.parametrize(["func_input", "expected_value"],
+     [
+        [(test_game_0, test_board_0, Player(2, Color(0, 0, 0)), Position(4, 3)), True],
+        [(test_game_0, test_board_0, Player(2, Color(0, 0, 0)), Position(4, 13)), True],
+        [(test_game_0, test_board_0, Player(2, Color(0, 0, 0)), Position(7, 3)), False],
+        [(test_game_0, test_board_2, test_player, Position(8, 9)), False]
      ]
 )
 def test_has_player_won(func_input, expected_value):
-    test_game, test_board, test_player, test_move = func_input
-    is_win = test_game.has_player_won(test_board, test_player, test_move)
+    test_game, test_board, player, test_move = func_input
+    is_win = test_game.has_player_won(test_board, player, test_move)
 
     assert is_win == expected_value
+
+@pytest.mark.parametrize(["func_input", "expected_value"],
+     [
+        [(test_game_0, test_board_0), False],
+        [(test_game_0, test_board_1), True],
+     ]
+)
+def test_is_game_draw(func_input, expected_value):
+    game, board = func_input
+    is_draw = test_game_0.is_game_draw(board)
+
+    assert is_draw == expected_value
+
+
+@pytest.mark.parametrize(["func_input", "expected_value"],
+    [
+        [(test_game_0, test_board_0, test_player, Position(4, 3)), (True, "Player 2 won the game")],
+        [(test_game_0, test_board_0, test_player, Position(0, 0)), (False, "The game continues")],
+        [(test_game_0, test_board_2, test_player, Position(8, 9)), (True, "This game is a draw")],
+    ]
+ )
+def test_is_game_over(func_input, expected_value):
+    game, board, player, move = func_input
+    is_over = game.is_game_over(board, player, move)
+
+    assert is_over == expected_value
+
+
