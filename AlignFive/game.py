@@ -5,6 +5,8 @@ from AlignFive.game_interface import GameWindow
 from AlignFive.player import Player, get_next_player
 from AlignFive.utils import Color, Position
 
+import logging
+
 
 class AlignFive(object):
     def __init__(self, number_of_human_players: int = 2, number_of_random_players: int = 0):
@@ -48,7 +50,7 @@ class AlignFive(object):
 
     def is_game_draw(self, board: GameBoard) -> bool:
         if sum(board.list_available_positions()) == 0:
-            print("The game is over, this is a draw")
+            logging.info("The game is over, this is a draw")
             return True
         else:
             return False
@@ -90,10 +92,11 @@ class AlignFive(object):
                     is_over, outcome = self.is_game_over(game_board, player, move_address)
                     player = get_next_player(player, player_list)
                 else:
-                    print("Position is taken, try again")
+                    logging.info("Position is taken, try again")
 
-        print(outcome)
+        logging.info(outcome)
 
 if __name__ == '__main__':
+    logging.getLogger().setLevel(logging.INFO)
     my_game = AlignFive()
     my_game.play_game()

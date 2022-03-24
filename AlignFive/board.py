@@ -1,3 +1,4 @@
+import logging
 import random
 from typing import List
 
@@ -39,7 +40,7 @@ class GameBoard(object):
 
     def update_board(self, move: Position, player: Player):
         self.board[move.row][move.column] = player.player_number
-        print(self.board)
+        logging.info(self.board)
 
     # def get_board_subset_for_eval(self, move: Position):
     #     move_nearest_neighbours = self.board[(move.row - 1):(move.row + 2), (move.column - 1):(move.column + 2)]
@@ -55,7 +56,7 @@ class GameBoard(object):
         while is_neighbour_same_colour:
             next_row = move_address.row + (next_field_increment * check_direction.row)
             next_column = move_address.column + (next_field_increment * check_direction.column)
-            print(next_row, next_column)
+            logging.info(f"{next_row}, {next_column}")
             neighbour_value = self.board[next_row][next_column]
 
             if neighbour_value == player.player_number:
