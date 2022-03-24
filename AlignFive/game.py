@@ -1,8 +1,4 @@
-import random
-from random import randint
-from typing import Tuple
-
-import numpy as np
+from typing import Tuple, List
 
 from AlignFive.board import GameBoard
 from AlignFive.game_interface import GameWindow
@@ -15,7 +11,7 @@ class AlignFive(object):
         self.number_of_human_players = number_of_human_players
         self.number_of_random_players = number_of_random_players
 
-    def create_list_of_players(self):
+    def create_list_of_players(self) -> List[Player]:
         list_of_players = []
         list_of_colors = [Color(0, 0, 0), Color(255, 255, 255)]
 

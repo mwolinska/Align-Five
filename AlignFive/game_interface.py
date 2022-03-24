@@ -2,8 +2,7 @@ from typing import Optional
 
 import pygame
 
-from AlignFive.player import Player, get_next_player
-from utils import find_index_of_closest_value, Click, Color, Position
+from AlignFive.utils import find_index_of_closest_value, Click, Color, Position
 
 
 class GameWindow(object):
