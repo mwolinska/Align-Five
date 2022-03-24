@@ -109,7 +109,6 @@ def test_list_available_positions(func_input, expected_value):
 )
 def test_is_position_available(func_input, expected_value):
     test_board, test_move = func_input
-    print(test_board.size)
     is_available = test_board.is_position_available(test_move)
 
     assert is_available == expected_value
