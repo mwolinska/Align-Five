@@ -66,7 +66,8 @@ class GameWindow(object):
                     )
         pygame.display.flip()
 
-    def get_user_interaction(self) -> Optional[Click]:
+    @staticmethod
+    def get_user_interaction() -> Optional[Click]:
         running = True
         while running:
 

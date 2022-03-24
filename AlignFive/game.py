@@ -25,7 +25,8 @@ class AlignFive(object):
 
         return list_of_players
 
-    def has_player_won(self, current_board: GameBoard, move_player: Player, move_address: Position) -> bool:
+    @staticmethod
+    def has_player_won(current_board: GameBoard, move_player: Player, move_address: Position) -> bool:
         # possible win directions in order:
         # left, right,
         # up, down,
@@ -48,7 +49,8 @@ class AlignFive(object):
 
         return False
 
-    def is_game_draw(self, board: GameBoard) -> bool:
+    @staticmethod
+    def is_game_draw(board: GameBoard) -> bool:
         if sum(board.list_available_positions()) == 0:
             logging.info("The game is over, this is a draw")
             return True
