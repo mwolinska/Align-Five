@@ -1,5 +1,4 @@
-from typing import List, TYPE_CHECKING
-
+from typing import List
 
 from AlignFive.utils import Color
 

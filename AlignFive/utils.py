@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from typing import List, Tuple, TYPE_CHECKING
+from typing import List, Tuple
 
 import numpy as np
+
 
 def find_index_of_closest_value(click: int, allowed_positions_list: List[int]) -> int:
     allowed_positions_array = np.asarray(allowed_positions_list)
