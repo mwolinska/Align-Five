@@ -94,7 +94,7 @@ test_board_small = GameBoard().from_array(np.array([[0, 0, 0], [1, 2, 1], [0, 2,
 )
 def test_list_available_positions(func_input, expected_value):
     test_board = func_input
-    test_list_of_indices = test_board.list_available_positions()
+    test_list_of_indices = test_board.list_available_position_indexes()
 
     assert test_list_of_indices.all() == expected_value.all()
 

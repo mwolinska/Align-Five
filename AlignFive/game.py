@@ -51,7 +51,7 @@ class AlignFive(object):
 
     @staticmethod
     def is_game_draw(board: GameBoard) -> bool:
-        if sum(board.list_available_positions()) == 0:
+        if sum(board.list_available_position_indexes()) == 0:
             logging.info("The game is over, this is a draw")
             return True
         else:

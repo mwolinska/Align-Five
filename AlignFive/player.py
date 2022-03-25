@@ -33,7 +33,7 @@ class RandomPlayer(AbstractPlayer):
     @staticmethod
     def select_random_position(board: GameBoard) -> Tuple[int, int]:
         available_position_selected = False
-        available_positions_list = board.list_available_positions()
+        available_positions_list = board.list_available_position_indexes()
 
         while not available_position_selected:
             random_position = random.randint(0, (board.board.shape[0] * board.board.shape[1] - 1))

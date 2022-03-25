@@ -39,7 +39,7 @@ class GameBoard(object):
 
         return np.array(list_of_indices)
 
-    def list_available_positions(self) -> List[int]:
+    def list_available_position_indexes(self) -> List[int]:
         current_board = self.board.flatten()
         board_mask = current_board == 0
         list_of_board_indices = self.get_array_of_indices()
@@ -47,7 +47,7 @@ class GameBoard(object):
         return list_of_board_indices[board_mask]
 
     def is_position_available(self, move: Position) -> bool:
-        available_positions = self.list_available_positions()
+        available_positions = self.list_available_position_indexes()
         position_index = move.row * self.board.shape[1] + move.column
         if position_index in available_positions:
             return True
@@ -57,7 +57,7 @@ class GameBoard(object):
     def select_random_position(self):
 
         available_position_selected = False
-        available_positions_array = self.list_available_positions()
+        available_positions_array = self.list_available_position_indexes()
 
         while not available_position_selected:
             random_position = random.randint(0, (self.board.shape[0] * self.board.shape[1] - 1))
