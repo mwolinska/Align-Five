@@ -80,7 +80,10 @@ class GameBoard(object):
         while is_neighbour_same_colour:
             next_row = move_address.row + (next_field_increment * check_direction.row)
             next_column = move_address.column + (next_field_increment * check_direction.column)
-            logging.info(f"{next_row}, {next_column}")
+
+            if (next_row >= self.board_size or next_row < 0) or (next_column >= self.board_size or next_column < 0):
+                return 0
+            # logging.info(f"{next_row}, {next_column}")
             neighbour_value = self.board[next_row][next_column]
 
             if neighbour_value == player_number:
