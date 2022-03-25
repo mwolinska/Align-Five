@@ -3,7 +3,7 @@ import pytest
 
 from AlignFive.board import GameBoard
 from AlignFive.player import Player
-from AlignFive.utils import Position, Color
+from AlignFive.utils import Position, Color, Move
 
 test_player_1 = Player(1, Color(0, 0, 0))
 test_player_2 = Player(2, Color(255, 255, 255))
@@ -84,8 +84,7 @@ test_board_2.board = np.array(
     ]
 )
 
-test_board_small = GameBoard(3)
-test_board_small.board = np.array([[0, 0, 0], [1, 2, 1], [0, 2, 1]])
+test_board_small = GameBoard(3).from_array(np.array([[0, 0, 0], [1, 2, 1], [0, 2, 1]]))
 
 @pytest.mark.parametrize(["func_input", "expected_value"],
     [
@@ -125,20 +124,22 @@ def test_select_random_position(func_input, expected_value):
 
 @pytest.mark.parametrize(["func_input", "expected_value"],
     [
-        [(test_board_small, Position(0, 0), test_player_1), np.array([[1, 0, 0], [1, 2, 1], [0, 2, 1]])],
-        [(test_board_small, Position(2, 0), test_player_2), np.array([[0, 0, 0], [1, 2, 1], [2, 2, 1]])],
+        [(test_board_small, Move(Position(0, 0), test_player_1.player_number)), np.array([[1, 0, 0], [1, 2, 1], [0, 2, 1]])],
+        [(test_board_small, Move(Position(2, 0), test_player_2.player_number)), np.array([[0, 0, 0], [1, 2, 1], [2, 2, 1]])],
     ]
  )
-def test_update_board(func_input, expected_value):
-    test_board, test_move, test_player = func_input
-    test_board.update_board(test_move, test_player)
+def test_update_board(func_input, expected_value: np.ndarray):
+    test_board, test_move = func_input
+    test_board.update_board(test_move)
 
     assert test_board.board.all() == expected_value.all()
 
 @pytest.mark.parametrize(["func_input", "expected_value"],
     [
-        [(test_board_0, Position(4, 3), Position(0, -1), test_player_2), 2],
-        [(test_board_small, Position(1, 1), Position(-1, -1), test_player_2), 0],
+        [(test_board_0, Position(4, 3), Position(0, -1), test_player_2.player_number), 2],
+        [(test_board_small, Position(1, 1), Position(-1, -1), test_player_2.player_number), 0],
+        [(test_board_small, Position(1, 1), Position(-1, -1), test_player_2.player_number), 0],
+
     ]
 )
 def test_count_neighbours(func_input, expected_value):
