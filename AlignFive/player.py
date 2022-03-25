@@ -1,6 +1,6 @@
 import abc
 import random
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 from AlignFive.board import GameBoard
 from AlignFive.utils import Color, Position, Move
@@ -17,9 +17,12 @@ class Player(AbstractPlayer):
         self.player_number = player_number
         self.color = color
 
-    def make_move(self, board: GameBoard) -> Move:
+    def make_move(self, board: GameBoard) -> Optional[Move]:
         user_interaction = board.game_visual.get_user_interaction()
-        move_address = board.game_visual.translate_user_click_to_coords(user_interaction)
+        if user_interaction is None:
+            return None
+        else:
+            move_address = board.game_visual.translate_user_click_to_coords(user_interaction)
         return Move(position=move_address, player_number=self.player_number)
 
 class RandomPlayer(AbstractPlayer):
