@@ -14,8 +14,8 @@ if typing.TYPE_CHECKING:
 
 class GameBoard(object):
     def __init__(self, board_size: int = 19):
-        self.board_size = board_size
         self.board = np.zeros((board_size, board_size))
+        self.board_size = self.board.shape[0]
         self.game_visual = GameWindow()
 
     @property
@@ -25,7 +25,6 @@ class GameBoard(object):
     @board.setter
     def board(self, array_board: np.ndarray):
         self._board = array_board
-        self.board_size = self._board.shape[0]
 
     @classmethod
     def from_array(cls, board: np.ndarray):
