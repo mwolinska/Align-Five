@@ -63,12 +63,7 @@ class GameBoard(object):
 
     def update_board(self, move: Move):
         self.board[move.position.row][move.position.column] = move.player_number
-        logging.info(self.board)
-
-    # def get_board_subset_for_eval(self, move: Position):
-    #     move_nearest_neighbours = self.board[(move.row - 1):(move.row + 2), (move.column - 1):(move.column + 2)]
-    #     mask = move_nearest_neighbours ==
-    #     print(a)
+        logging.debug(self.board)
 
     def count_neighbours(self, move_address: Position, check_direction: Position, player_number: int):
 
