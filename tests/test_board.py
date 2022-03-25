@@ -84,19 +84,19 @@ test_board_2.board = np.array(
     ]
 )
 
-test_board_small = GameBoard(3).from_array(np.array([[0, 0, 0], [1, 2, 1], [0, 2, 1]]))
+test_board_small = GameBoard().from_array(np.array([[0, 0, 0], [1, 2, 1], [0, 2, 1]]))
 
 @pytest.mark.parametrize(["func_input", "expected_value"],
     [
-        [test_board_small, np.array([True, True, True, False, False, False, True, False, False])],
+        [test_board_small, np.array([0, 1, 2, 6])],
     ]
 
 )
 def test_list_available_positions(func_input, expected_value):
     test_board = func_input
-    test_mask = test_board.list_available_positions()
+    test_list_of_indices = test_board.list_available_positions()
 
-    assert test_mask.all() == expected_value.all()
+    assert test_list_of_indices.all() == expected_value.all()
 
 
 @pytest.mark.parametrize(["func_input", "expected_value"],

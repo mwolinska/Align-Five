@@ -36,11 +36,11 @@ class RandomPlayer(AbstractPlayer):
         available_positions_list = board.list_available_positions()
 
         while not available_position_selected:
-            random_position = random.randint(0, (board.board_size * board.board_size - 1))
+            random_position = random.randint(0, (board.board.shape[0] * board.board.shape[1] - 1))
 
             if available_positions_list[random_position]:
-                row_index = random_position // board.board_size
-                column_index = random_position % board.board_size
+                row_index = random_position // board.board.shape[1]
+                column_index = random_position % board.board.shape[1]
                 return row_index, column_index
             else:
                 available_position_selected = False
