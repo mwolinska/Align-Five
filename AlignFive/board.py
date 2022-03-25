@@ -1,21 +1,45 @@
 import logging
 import random
+import typing
 from typing import List
 
 import numpy as np
 
-from AlignFive.player import Player
-from AlignFive.utils import Position
+from AlignFive.game_interface import GameWindow
+from AlignFive.utils import Position, Move
+
+if typing.TYPE_CHECKING:
+    pass
 
 
 class GameBoard(object):
     def __init__(self, board_size: int = 19):
         self.board_size = board_size
         self.board = np.zeros((board_size, board_size))
+        self.game_visual = GameWindow()
+
+    @property
+    def board(self):
+        return self._board
+
+    @board.setter
+    def board(self, array_board: np.ndarray):
+        self._board = array_board
+        self.board_size = self._board.shape[0]
+
+    @classmethod
+    def from_array(cls, board: np.ndarray):
+        game_board = cls()
+        game_board.board = board
+        return game_board
 
     def list_available_positions(self) -> List[bool]:
         current_board = self.board.flatten()
         board_mask = current_board == 0
+        #
+        # array_of_idxs = [0, 1, 2, 3, ..., 19*19]
+        #
+        # array_of_idxs[board_mask]
         return board_mask
 
     def is_position_available(self, move: Position) -> bool:
@@ -38,8 +62,8 @@ class GameBoard(object):
             else:
                 available_position_selected = False
 
-    def update_board(self, move: Position, player: Player):
-        self.board[move.row][move.column] = player.player_number
+    def update_board(self, move: Move):
+        self.board[move.position.row][move.position.column] = move.player_number
         logging.info(self.board)
 
     # def get_board_subset_for_eval(self, move: Position):
@@ -47,7 +71,7 @@ class GameBoard(object):
     #     mask = move_nearest_neighbours ==
     #     print(a)
 
-    def count_neighbours(self, move_address: Position, check_direction: Position, player: Player):
+    def count_neighbours(self, move_address: Position, check_direction: Position, player_number: int):
 
         is_neighbour_same_colour = True
         n_neighbouring_player_stones = 0
@@ -59,7 +83,7 @@ class GameBoard(object):
             logging.info(f"{next_row}, {next_column}")
             neighbour_value = self.board[next_row][next_column]
 
-            if neighbour_value == player.player_number:
+            if neighbour_value == player_number:
                 n_neighbouring_player_stones += 1
                 next_field_increment += 1
             else:
@@ -80,3 +104,28 @@ class GameBoard(object):
 
 
 
+if __name__ == '__main__':
+    board = GameBoard(board_size=3).from_array(np.array(
+    [
+        [1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1],
+        [2, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 2, 2, 1, 2],
+        [1, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 1, 1],
+        [2, 2, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 1, 1],
+        [1, 2, 1, 2, 2, 2, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 1],
+        [1, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
+        [1, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 1, 2, 2, 1, 2],
+        [2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 1, 1, 2, 1, 2, 1, 1, 1],
+        [1, 1, 2, 2, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 2, 2],
+        [1, 1, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 1],
+        [1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 1],
+        [2, 1, 2, 1, 2, 2, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 1, 2, 2],
+        [1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 2, 1, 1, 2, 1],
+        [1, 2, 2, 1, 2, 2, 1, 1, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1],
+        [2, 2, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
+        [1, 2, 2, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2, 1, 1, 2],
+        [2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1],
+        [1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 2, 1, 2, 2, 1, 1, 2],
+        [2, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2]
+    ]
+))
+    print()

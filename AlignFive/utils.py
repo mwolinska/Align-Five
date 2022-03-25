@@ -19,6 +19,15 @@ class Position(object):
     row: int
     column: int
 
+    @classmethod
+    def from_tuple(cls, position):
+        return cls(position[0], position[1])
+
+@dataclass
+class Move(object):
+    position: Position
+    player_number: int
+
 @dataclass
 class Color(object):
     r: int

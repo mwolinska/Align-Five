@@ -1,32 +1,32 @@
+import logging
 from typing import Tuple, List
 
 from AlignFive.board import GameBoard
-from AlignFive.game_interface import GameWindow
-from AlignFive.player import Player, get_next_player
+from AlignFive.player import Player, get_next_player, AbstractPlayer, RandomPlayer
 from AlignFive.utils import Color, Position
-
-import logging
 
 
 class AlignFive(object):
-    def __init__(self, number_of_human_players: int = 2, number_of_random_players: int = 0):
-        self.number_of_human_players = number_of_human_players
-        self.number_of_random_players = number_of_random_players
+    def __init__(self, number_of_players: int = 2, with_bots: bool = False):
+        self.number_of_players = number_of_players
+        self.with_bots = with_bots
+        if self.with_bots:
+            self.number_of_players = self.number_of_players // 2
 
-    def create_list_of_players(self) -> List[Player]:
+        self.game_board = GameBoard()
+
+    def create_list_of_players(self) -> List[AbstractPlayer]:
         list_of_players = []
         list_of_colors = [Color(0, 0, 0), Color(255, 255, 255)]
 
-        for i in range(self.number_of_human_players):
-            list_of_players.append(Player(i+1, list_of_colors[i], False))
-
-        # for i in range(self.number_of_random_players):
-        #     list_of_players.append(Player(i+2, True))
-
+        for i in range(self.number_of_players):
+            list_of_players.append(Player(i+1, list_of_colors[i]))
+            if self.with_bots:
+                list_of_players.append(RandomPlayer(i + 2, list_of_colors[i+1]))
         return list_of_players
 
     @staticmethod
-    def has_player_won(current_board: GameBoard, move_player: Player, move_address: Position) -> bool:
+    def has_player_won(current_board: GameBoard, move_player: AbstractPlayer, move_address: Position) -> bool:
         # possible win directions in order:
         # left, right,
         # up, down,
@@ -42,7 +42,7 @@ class AlignFive(object):
         for dimension in possible_win_directions:
             stones_in_dimension = 0
             for direction in dimension:
-                stones_in_dimension += current_board.count_neighbours(move_address, direction, move_player)
+                stones_in_dimension += current_board.count_neighbours(move_address, direction, move_player.player_number)
 
             if stones_in_dimension == 4:
                 return True
@@ -71,8 +71,6 @@ class AlignFive(object):
                 return False, outcome_string
 
     def play_game(self):
-        game_visual = GameWindow()
-        game_board = GameBoard()
         player_list = self.create_list_of_players()
         player = player_list[0]
 
@@ -80,18 +78,19 @@ class AlignFive(object):
         outcome = None
 
         while not is_over:
-            user_interaction = game_visual.get_user_interaction()
 
-            if user_interaction is None:
+            player_move = player.make_move(self.game_board)
+
+            if player_move is None:
                 is_over = True
                 outcome = "Game ended early"
             else:
-                move_address = game_visual.translate_user_click_to_coords(user_interaction)
 
-                if game_board.is_position_available(move_address):
-                    game_visual.draw_stone(move_address, color=player.color)
-                    game_board.update_board(move_address, player)
-                    is_over, outcome = self.is_game_over(game_board, player, move_address)
+                if self.game_board.is_position_available(player_move.position):
+                    self.game_board.game_visual.draw_stone(player_move.position, color=player.color)
+                    self.game_board.update_board(player_move)
+
+                    is_over, outcome = self.is_game_over(self.game_board, player, player_move.position)
                     player = get_next_player(player, player_list)
                 else:
                     logging.info("Position is taken, try again")
@@ -100,5 +99,5 @@ class AlignFive(object):
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
-    my_game = AlignFive()
+    my_game = AlignFive(number_of_players=2, with_bots=True)
     my_game.play_game()
