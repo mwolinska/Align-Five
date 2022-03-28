@@ -7,13 +7,16 @@ from AlignFive.utils import Color, Position, Move
 
 
 class AbstractPlayer(abc.ABC):
-
+    def __init__(self):
+        self.player_number = None
+        self.color = None
     @abc.abstractmethod
     def make_move(self, board: GameBoard) -> Move:
         pass
 
 class Player(AbstractPlayer):
     def __init__(self, player_number: int, color: Color):
+        super().__init__()
         self.player_number = player_number
         self.color = color
 
@@ -27,6 +30,7 @@ class Player(AbstractPlayer):
 
 class RandomPlayer(AbstractPlayer):
     def __init__(self, player_number: int, color: Color):
+        super().__init__()
         self.player_number = player_number
         self.color = color
 
@@ -36,7 +40,7 @@ class RandomPlayer(AbstractPlayer):
         available_positions_list = board.list_available_position_indexes()
 
         while not available_position_selected:
-            random_position = random.randint(0, (board.board.shape[0] * board.board.shape[1] - 1))
+            random_position = random.randint(0, ((board.board.shape[0] * board.board.shape[1]) - 1))
 
             if available_positions_list[random_position]:
                 row_index = random_position // board.board.shape[1]
