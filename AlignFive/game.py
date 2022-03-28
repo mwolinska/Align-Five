@@ -3,7 +3,7 @@ from typing import Tuple, List
 
 from AlignFive.board import GameBoard
 from AlignFive.player import Player, get_next_player, AbstractPlayer, RandomPlayer
-from AlignFive.utils import Color, Position
+from AlignFive.utils import Color, Position, Move
 
 
 class AlignFive(object):
@@ -25,8 +25,7 @@ class AlignFive(object):
                 list_of_players.append(RandomPlayer(i + 2, list_of_colors[i+1]))
         return list_of_players
 
-    @staticmethod
-    def has_player_won(current_board: GameBoard, move_player: AbstractPlayer, move_address: Position) -> bool:
+    def has_player_won(self, last_move: Move) -> bool:
         # possible win directions in order:
         # left, right,
         # up, down,
@@ -42,28 +41,27 @@ class AlignFive(object):
         for dimension in possible_win_directions:
             stones_in_dimension = 0
             for direction in dimension:
-                stones_in_dimension += current_board.count_neighbours(move_address, direction, move_player.player_number)
+                stones_in_dimension += self.game_board.count_neighbours(direction, last_move)
 
             if stones_in_dimension == 4:
                 return True
 
         return False
 
-    @staticmethod
-    def is_game_draw(board: GameBoard) -> bool:
-        if sum(board.list_available_position_indexes()) == 0:
+    def is_game_draw(self) -> bool:
+        if sum(self.game_board.list_available_position_indexes()) == 0:
             logging.info("The game is over, this is a draw")
             return True
         else:
             return False
 
-    def is_game_over(self, board: GameBoard, player: Player, move_address: Position) -> Tuple[bool, str]:
+    def is_game_over(self, last_move: Move) -> Tuple[bool, str]:
 
-        if self.has_player_won(board, player, move_address):
-            outcome_string = "Player " + str(player.player_number) + " won the game"
+        if self.has_player_won(last_move):
+            outcome_string = "Player " + str(last_move.player_number) + " won the game"
             return True, outcome_string
         else:
-            if self.is_game_draw(board):
+            if self.is_game_draw():
                 outcome_string = "This game is a draw"
                 return True, outcome_string
             else:
@@ -90,7 +88,7 @@ class AlignFive(object):
                     self.game_board.game_visual.draw_stone(player_move.position, color=player.color)
                     self.game_board.update_board(player_move)
 
-                    is_over, outcome = self.is_game_over(self.game_board, player, player_move.position)
+                    is_over, outcome = self.is_game_over(player_move)
                     player = get_next_player(player, player_list)
                 else:
                     logging.info("Position is taken, try again")

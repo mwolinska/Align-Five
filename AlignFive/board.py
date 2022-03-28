@@ -73,22 +73,22 @@ class GameBoard(object):
         self.board[move.position.row][move.position.column] = move.player_number
         logging.debug(self.board)
 
-    def count_neighbours(self, move_address: Position, check_direction: Position, player_number: int):
+    def count_neighbours(self, check_direction: Position, last_move: Move):
 
         is_neighbour_same_colour = True
         n_neighbouring_player_stones = 0
         next_field_increment = 1
 
         while is_neighbour_same_colour:
-            next_row = move_address.row + (next_field_increment * check_direction.row)
-            next_column = move_address.column + (next_field_increment * check_direction.column)
+            next_row = last_move.position.row + (next_field_increment * check_direction.row)
+            next_column = last_move.position.column + (next_field_increment * check_direction.column)
 
             if (next_row >= self.board.shape[0] or next_row < 0) or (next_column >= self.board.shape[1] or next_column < 0):
                 return 0
             logging.debug(f"{next_row}, {next_column}")
             neighbour_value = self.board[next_row][next_column]
 
-            if neighbour_value == player_number:
+            if neighbour_value == last_move.player_number:
                 n_neighbouring_player_stones += 1
                 next_field_increment += 1
             else:
