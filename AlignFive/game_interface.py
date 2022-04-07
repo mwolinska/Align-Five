@@ -1,5 +1,6 @@
 from typing import Optional
 
+import numpy as np
 import pygame
 
 from AlignFive.utils import find_index_of_closest_value, Click, Color, Position
@@ -99,6 +100,18 @@ class GameWindow(object):
         )
         pygame.display.flip()
 
+    @classmethod
+    def from_existing_board(cls, current_board: np.ndarray):
+        visual = cls()
+        for row_number in range(current_board.shape[0]):
+            for column_number in range(current_board[row_number].shape[0]):
+                if current_board[row_number][column_number] != 0:
+                    if current_board[row_number][column_number] == 1:
+                        stone_color = Color(0, 0, 0)
+                    else:
+                        stone_color = Color(255, 255, 255)
+                    test_position = Position(row_number, column_number)
+                    visual.draw_stone(test_position, stone_color)
 
 # if __name__ == '__main__':
 #     game_window = GameWindow(800, 800, 19, 19)
