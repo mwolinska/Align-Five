@@ -1,6 +1,7 @@
 import copy
 import logging
 import time
+from typing import Optional
 
 import numpy as np
 
@@ -16,11 +17,12 @@ class GameSim(AbstractGame):
         self.player_list = player_list
         self.game_board = GameBoard()
         self.player_index = 0
+        self.first_position = None
 
     @classmethod
     def from_existing_board(cls, current_game_state_board: np.ndarray, player_list) -> "GameSim":
         game = cls(player_list)
-        game.game_board = GameBoard.from_array(current_game_state_board)
+        game.game_board = game.game_board.from_array(current_game_state_board)
         return game
 
     def get_copy(self):
@@ -28,13 +30,17 @@ class GameSim(AbstractGame):
 
     def play_game(self):
         status = GameStatus.ongoing
-        n_moves_till_end = 1
+        n_moves_till_end = 0
 
         while status == GameStatus.ongoing:
             player = self.player_list[self.player_index % len(self.player_list)]
-            player_move = player.make_move(self.game_board)
-            self.game_board.update_board(player_move)
 
+            if n_moves_till_end == 0 and self.first_position is not None:
+                player_move = Move(self.first_position, player.player_number)
+            else:
+                player_move = player.make_move(self.game_board)
+
+            self.game_board.update_board(player_move)
             status = self.get_game_status(player_move)
             self.player_index += 1
             n_moves_till_end += 1
@@ -58,11 +64,11 @@ class GameSim(AbstractGame):
         outcome_score = self.outcome_to_int(outcome) / n_moves_till_end
         return outcome_score
 
-    def simulate(self, number_of_simulations: int) -> float:
+    def simulate(self, number_of_simulations: int, first_position: Optional[Position]) -> float:
         game_score_tally = 0
+        self.first_position = first_position
         for i in range(number_of_simulations):
             tic = time.time()
-            # todo: Sacha said to create this game with only random players
             outcome_score = self.run_single_simulation()
             game_score_tally += outcome_score
             toc = time.time()

@@ -58,31 +58,21 @@ class SmartPlayer(AbstractPlayer):
         best_move = Move(position=best_position, player_number=self.player_number)
         return best_move
 
-    def compute_best_position(self, board: GameBoard, number_of_simulations: int = 2) -> Optional[Position]:
+    def compute_best_position(self, board: GameBoard, number_of_simulations: int = 50) -> Optional[Position]:
         best_move_score = 0
 
-        # set up simulation
-        fake_board = GameBoard.from_array(board.board.copy())
-        player_list = [RandomPlayer(1), RandomPlayer(2)]
-        game = GameSim.from_existing_board(fake_board.board, player_list)
+        player_list = [RandomPlayer(2), RandomPlayer(1)] # this player list needs to be generlaised
 
-        # check for any immediate wins
-        best_position = game.check_for_immediate_outcome(fake_board, self.player_number)
+        for position_index in board.available_positions_list: # available_moves is the list of all possible moves for the Smart player at time T
+            potential_position = Position(position_index // board.board.shape[1], position_index % board.board.shape[1])
+            fake_board = GameBoard.from_array(board.board.copy())
+            game = GameSim.from_existing_board(fake_board.board, player_list)
 
-        # simulate possible games
-        if best_position is None:
+            move_score = game.simulate(number_of_simulations, potential_position)
 
-            for position_index in board.available_positions_list: # available_moves is the list of all possible moves for the Smart player at time T
-                potential_move = Move(position=Position(position_index // board.board.shape[1], position_index % board.board.shape[1]), player_number= self.player_number)
-                fake_board = GameBoard.from_array(board.board.copy())
-                fake_board.update_board(potential_move)
-                game = GameSim.from_existing_board(fake_board.board, player_list)
-
-                move_score = game.simulate(number_of_simulations)
-
-                if move_score > best_move_score:
-                    best_move_score = move_score
-                    best_position = potential_move.position
+            if move_score > best_move_score:
+                best_move_score = move_score
+                best_position = potential_position
 
         return best_position
 

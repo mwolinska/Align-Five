@@ -21,7 +21,6 @@ class AlignFive(object):
     def from_existing_board(cls, current_game_state_board: np.ndarray, with_bots=False, generate_visual=False):
         game = cls(with_bots=with_bots)
         game.game_board = GameBoard.from_array(current_game_state_board, generate_visual=generate_visual)
-        game.game_board.available_positions_list = game.game_board.list_available_position_indexes()
         game.game_board.game_visual.from_existing_board(current_game_state_board)
         return game
 
@@ -129,7 +128,7 @@ if __name__ == '__main__':
         [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
         [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
         [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0, 2, 1, 2, 1],
-        [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2],
+        [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 0, 1, 2, 2],
         [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1],
         [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2],
         [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2],
