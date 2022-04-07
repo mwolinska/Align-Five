@@ -4,8 +4,7 @@ from typing import Tuple, List
 import numpy as np
 
 from AlignFive.board import GameBoard
-from AlignFive.game import AbstractGame, GameStatus
-from AlignFive.player import Player, AbstractPlayer, RandomPlayer, SmartPlayer
+from AlignFive.player import Player, AbstractPlayer, SmartPlayer
 from AlignFive.utils import Color, Position, Move
 
 
@@ -16,16 +15,14 @@ class AlignFive(object):
         self.with_bots = with_bots
         self.game_board = GameBoard(generate_visual=True)
         self.player_list = self.create_list_of_players()
-
         self.player_index = 0
 
     @classmethod
     def from_existing_board(cls, current_game_state_board: np.ndarray, with_bots=False, generate_visual=False):
         game = cls(with_bots=with_bots)
-        # todo: Sacha said to set board here on 28/03/2022 DONE
         game.game_board = GameBoard.from_array(current_game_state_board, generate_visual=generate_visual)
-        game.game_board.game_visual.from_existing_board(current_game_state_board)
         game.game_board.available_positions_list = game.game_board.list_available_position_indexes()
+        game.game_board.game_visual.from_existing_board(current_game_state_board)
         return game
 
     def create_list_of_players(self) -> List[AbstractPlayer]:
@@ -42,7 +39,6 @@ class AlignFive(object):
             if self.with_bots:
                 list_of_players.append(SmartPlayer(player_number_counter, list_of_colors[i+1]))
                 player_number_counter += 1
-                print(list_of_players)
         return list_of_players
 
     def has_player_won(self, last_move: Move) -> bool:
@@ -73,15 +69,6 @@ class AlignFive(object):
         else:
             return False
 
-    # def get_game_status(self) -> GameStatus:
-    #     if self.has_player_won(last_move):
-    #         outcome = GameStatus.win
-    #     elif self.is_game_draw():
-    #         outcome = GameStatus.draw
-    #     else:
-    #         outcome = GameStatus.ongoing
-    #     return outcome
-
     def is_game_over(self, last_move: Move) -> Tuple[bool, str]:
 
         if self.has_player_won(last_move):
@@ -99,7 +86,7 @@ class AlignFive(object):
         player = self.player_list[self.player_index % self.number_of_players]
         return player
 
-    def play_game(self): # Todo: sacha said to return an outcome DONE
+    def play_game(self):
 
         is_over = False
         outcome = None

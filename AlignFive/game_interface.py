@@ -60,10 +60,11 @@ class GameWindow(object):
                 x_coord = self.vertical_line_position_list[x_el]
                 for y_el in circle_marking_line_indexes:
                     y_coord = self.horizontal_line_position_list[y_el]
-                    pygame.draw.circle(self.screen,
-                       (0, 0, 0),
-                       (x_coord, y_coord),
-                       5,
+                    pygame.draw.circle(
+                        self.screen,
+                        (0, 0, 0),
+                        (x_coord, y_coord),
+                        5,
                     )
         pygame.display.flip()
 
@@ -134,4 +135,3 @@ class GameWindow(object):
 #     print("Game ended early")
     # game_window.get_user_interaction(1, -1)
     # game_window.game_outcome(0)
-

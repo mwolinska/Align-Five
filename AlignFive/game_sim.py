@@ -20,15 +20,8 @@ class GameSim(AbstractGame):
     @classmethod
     def from_existing_board(cls, current_game_state_board: np.ndarray, player_list) -> "GameSim":
         game = cls(player_list)
-        # todo: Sacha said to set board here on 28/03/2022 DONE
         game.game_board = GameBoard.from_array(current_game_state_board)
         return game
-
-    @classmethod
-    def from_array(cls, mid_game_board: np.ndarray):
-        game_board = cls()
-        game_board.board = mid_game_board
-        return game_board
 
     def get_copy(self):
         return copy.deepcopy(self)
@@ -59,7 +52,7 @@ class GameSim(AbstractGame):
             outcome = GameStatus.ongoing
         return outcome
 
-    def run_single_simulation(self) -> int:
+    def run_single_simulation(self) -> float:
         game_copy = self.get_copy()
         outcome, n_moves_till_end = game_copy.play_game()
         outcome_score = self.outcome_to_int(outcome) / n_moves_till_end
@@ -81,7 +74,8 @@ class GameSim(AbstractGame):
 
     def check_for_immediate_outcome(self, board: GameBoard, player_number):
         for position_index in board.available_positions_list:
-            potential_move = Move(position=Position(position_index // board.board.shape[1], position_index % board.board.shape[1]), player_number=player_number)
+            potential_move_pos = Position(position_index // board.board.shape[1], position_index % board.board.shape[1])
+            potential_move = Move(position=potential_move_pos, player_number=player_number)
             move_outcome = self.get_game_status(potential_move)
             move_score = self.outcome_to_int(move_outcome)
 
@@ -103,7 +97,7 @@ class GameSim(AbstractGame):
 
         return outcome_int
 
-    def has_player_won(self, last_move: Move) -> Move:
+    def has_player_won(self, last_move: Move) -> bool:
         # possible win directions in order:[left, right], [up, down], [left top diagonal, right bottom diagonal],
         # [left bottom diagonal, right top diagonal]
 
@@ -123,4 +117,3 @@ class GameSim(AbstractGame):
                 return True
 
         return False
-
