@@ -33,6 +33,7 @@ class GameBoard(object):
     def from_array(cls, mid_game_board: np.ndarray, generate_visual: bool = False):
         game_board = cls(generate_visual=generate_visual)
         game_board.board = mid_game_board
+        game_board.available_positions_list = game_board.list_available_position_indexes()
         return game_board
 
     def get_array_of_indices(self):
