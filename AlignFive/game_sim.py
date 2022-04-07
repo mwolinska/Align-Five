@@ -80,7 +80,7 @@ class GameSim(AbstractGame):
 
     def check_for_immediate_outcome(self, board: GameBoard, player_number):
         for position_index in board.available_positions_list:
-            potential_move_pos = Position(position_index // board.board.shape[1], position_index % board.board.shape[1])
+            potential_move_pos = Position.from_index(index=position_index, n_columns=board.board.shape[1])
             potential_move = Move(position=potential_move_pos, player_number=player_number)
             move_outcome = self.get_game_status(potential_move)
             move_score = self.outcome_to_int(move_outcome)

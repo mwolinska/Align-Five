@@ -5,7 +5,7 @@ from typing import List
 import numpy as np
 
 from AlignFive.game_interface import GameWindow
-from AlignFive.utils import Position, Move
+from AlignFive.utils import Position, Move, PositionIndex
 
 if typing.TYPE_CHECKING:
     pass
@@ -50,7 +50,7 @@ class GameBoard(object):
         return list_of_board_indices[board_mask]
 
     def is_position_available(self, selected_position: Position) -> bool:
-        position_index = selected_position.row * self.board.shape[1] + selected_position.column
+        position_index = PositionIndex.from_position(selected_position, self.board.shape[1])
         if position_index in self.available_positions_list:
             return True
         else:
@@ -58,7 +58,8 @@ class GameBoard(object):
 
     def update_board(self, move: Move):
         self.board[move.position.row][move.position.column] = move.player_number
-        self.available_positions_list = self.available_positions_list[self.available_positions_list != move.position.row * self.board.shape[1] + move.position.column]
+        move_position_index = PositionIndex.from_position(move.position, self.board.shape[1])
+        self.available_positions_list = self.available_positions_list[self.available_positions_list != move_position_index]
 
     def count_neighbours(self, check_direction: Position, last_move: Move):
 

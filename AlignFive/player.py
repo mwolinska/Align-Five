@@ -39,9 +39,8 @@ class RandomPlayer(AbstractPlayer):
     @staticmethod
     def select_random_position(board: GameBoard) -> Position:
         random_position_index = random.choice(board.available_positions_list)
-        row_index = random_position_index // board.board.shape[1]
-        column_index = random_position_index % board.board.shape[1]
-        return Position(row_index, column_index)
+        random_position = Position.from_index(random_position_index, board.board.shape[1])
+        return random_position
 
     def make_move(self, board: GameBoard) -> Move:
         random_position = self.select_random_position(board)
@@ -64,7 +63,9 @@ class SmartPlayer(AbstractPlayer):
         player_list = [RandomPlayer(2), RandomPlayer(1)] # this player list needs to be generlaised
 
         for position_index in board.available_positions_list: # available_moves is the list of all possible moves for the Smart player at time T
-            potential_position = Position(position_index // board.board.shape[1], position_index % board.board.shape[1])
+
+            potential_position = Position.from_index(position_index, n_columns=board.board.shape[1])
+
             fake_board = GameBoard.from_array(board.board.copy())
             game = GameSim.from_existing_board(fake_board.board, player_list)
 
@@ -75,7 +76,6 @@ class SmartPlayer(AbstractPlayer):
                 best_position = potential_position
 
         return best_position
-
 
 # def select_best_position(self):
 #     current_game_board = self.board.copy()
