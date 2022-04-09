@@ -6,5 +6,3 @@ __pycache__/
 .DS_Store
 
 ./tests/.pytest_cache
-
-AlignFive/game_simulation.py

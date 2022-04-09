@@ -4,24 +4,25 @@ from typing import Tuple, List
 import numpy as np
 
 from AlignFive.board import GameBoard
-from AlignFive.player import Player, AbstractPlayer, SmartPlayer
+from AlignFive.player import Player, AbstractPlayer, SmartPlayer, RandomPlayer
 from AlignFive.utils import Color, Position, Move
 
 
 class AlignFive(object):
 
-    def __init__(self, number_of_players: int = 2, with_bots: bool = False):
+    def __init__(self, number_of_players: int = 2, with_bots: bool = False, generate_visual: bool = True):
         self.number_of_players = number_of_players
         self.with_bots = with_bots
-        self.game_board = GameBoard(generate_visual=True)
+        self.game_board = GameBoard(generate_visual=generate_visual)
         self.player_list = self.create_list_of_players()
         self.player_index = 0
 
     @classmethod
     def from_existing_board(cls, current_game_state_board: np.ndarray, with_bots=False, generate_visual=False):
-        game = cls(with_bots=with_bots)
+        game = cls(with_bots=with_bots, generate_visual=False)
         game.game_board = GameBoard.from_array(current_game_state_board, generate_visual=generate_visual)
-        game.game_board.game_visual.from_existing_board(current_game_state_board)
+        if generate_visual:
+            game.game_board.game_visual.from_existing_board(current_game_state_board)
         return game
 
     def create_list_of_players(self) -> List[AbstractPlayer]:
@@ -38,6 +39,7 @@ class AlignFive(object):
             if self.with_bots:
                 list_of_players.append(SmartPlayer(player_number_counter, list_of_colors[i+1]))
                 player_number_counter += 1
+
         return list_of_players
 
     def has_player_won(self, last_move: Move) -> bool:
