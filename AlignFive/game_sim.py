@@ -68,27 +68,11 @@ class GameSim(AbstractGame):
         game_score_tally = 0
         self.first_position = first_position
         for i in range(number_of_simulations):
-            tic = time.time()
             outcome_score = self.run_single_simulation()
             game_score_tally += outcome_score
-            toc = time.time()
-            sim_time = toc - tic
-            logging.info("Simulation number " + str(i) + " was performed in " + str(sim_time))
 
         logging.info("The score is " + str(game_score_tally / number_of_simulations))
         return game_score_tally / number_of_simulations
-
-    def check_for_immediate_outcome(self, board: GameBoard, player_number):
-        for position_index in board.available_positions_list:
-            potential_move_pos = Position.from_index(index=position_index, n_columns=board.board.shape[1])
-            potential_move = Move(position=potential_move_pos, player_number=player_number)
-            move_outcome = self.get_game_status(potential_move)
-            move_score = self.outcome_to_int(move_outcome)
-
-            if move_score == 1 or move_score == -1:
-                return potential_move.position
-
-        return None
 
     @staticmethod
     def outcome_to_int(outcome):

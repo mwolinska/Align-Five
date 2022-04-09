@@ -3,6 +3,7 @@ from enum import Enum
 from typing import List
 
 import numpy as np
+
 from AlignFive.utils import Move
 
 
@@ -17,7 +18,7 @@ class AbstractGame(abc.ABC):
 
     @classmethod
     @abc.abstractmethod
-    def from_existing_board(cls, current_game_state_board: np.ndarray, player_list: List["AbstractPlayer"]) -> "AbstractGame":
+    def from_existing_board(cls, current_game_board: np.ndarray, player_list: List["AbstractPlayer"]) -> "AbstractGame":
         pass
 
     @abc.abstractmethod

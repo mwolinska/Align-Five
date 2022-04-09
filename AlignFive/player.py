@@ -1,11 +1,41 @@
 import abc
-import logging
+import dataclasses
+import os
 import random
-from typing import Tuple, Optional
+import time
+from dataclasses import dataclass
+from itertools import repeat
+from multiprocessing import Pool
+from typing import Optional, List
 
 from AlignFive.board import GameBoard
 from AlignFive.game_sim import GameSim
 from AlignFive.utils import Color, Position, Move
+
+
+@dataclass
+class PotentialMove:
+    position: Position
+    score: float
+
+@dataclass
+class PotentialMoves:
+    potential_moves: List[PotentialMove] = dataclasses.field(default_factory=list)
+
+    @property
+    def best_potential_move(self) -> PotentialMove:
+        try:
+            best_move_score = self.potential_moves[0].score
+            best_move = self.potential_moves[0]
+
+            for potential_move in self.potential_moves:
+                if potential_move.score > best_move_score:
+                    best_move_score = potential_move.score
+                    best_move = potential_move
+
+            return best_move
+        except IndexError:
+            raise IndexError("Check your list before you wreck your list")
 
 
 class AbstractPlayer(abc.ABC):
@@ -47,35 +77,69 @@ class RandomPlayer(AbstractPlayer):
         return Move(random_position, player_number=self.player_number)
 
 class SmartPlayer(AbstractPlayer):
-    def __init__(self, player_number: int, color: Color):
+    def __init__(self, player_number: int, color: Color, n_workers: int = os.cpu_count(), n_simulations: int = 100):
         super().__init__()
         self.player_number = player_number
         self.color = color
+        self.n_workers = n_workers
+        # self.simulation_times = [[], []]
+        self.n_simulations = n_simulations
 
     def make_move(self, board: GameBoard) -> Move:
+        # tac = time.time()
         best_position = self.compute_best_position(board)
+        # tic = time.time()
+        # print(f"Elapsed time: {tic - tac}")
         best_move = Move(position=best_position, player_number=self.player_number)
+        # self.simulation_times[0].append(board.available_positions_list.shape[0])
+        # self.simulation_times[1].append((tic - tac))
         return best_move
 
-    def compute_best_position(self, board: GameBoard, number_of_simulations: int = 50) -> Optional[Position]:
-        best_move_score = 0
+    def simulate_move(self, position_index: int, board: GameBoard) -> PotentialMove:
+        potential_position = Position.from_index(position_index, n_columns=board.board.shape[1])
+        player_list = [RandomPlayer(2), RandomPlayer(1)]  # this player list needs to be generalised
 
-        player_list = [RandomPlayer(2), RandomPlayer(1)] # this player list needs to be generlaised
+        game = GameSim.from_existing_board(board.board, player_list)
 
-        for position_index in board.available_positions_list: # available_moves is the list of all possible moves for the Smart player at time T
+        # Slow because runs all computations
+        move_score = game.simulate(self.n_simulations, potential_position)
 
-            potential_position = Position.from_index(position_index, n_columns=board.board.shape[1])
+        return PotentialMove(position=potential_position, score=move_score)
 
-            fake_board = GameBoard.from_array(board.board.copy())
-            game = GameSim.from_existing_board(fake_board.board, player_list)
+    def compute_best_position(self, board: GameBoard) -> Optional[Position]:
+        # best_move_score = 0
+        # win_probability_array = np.ones([board.board.shape[0], board.board.shape[1]], dtype=float) * (- 1)
 
-            move_score = game.simulate(number_of_simulations, potential_position)
+        fake_board = GameBoard.from_array(board.board.copy())
+        iterative_arg = board.available_positions_list
+        repeated_arg = fake_board
 
-            if move_score > best_move_score:
-                best_move_score = move_score
-                best_position = potential_position
+        with Pool(self.n_workers) as pool:
+            list_potential_moves = pool.starmap(self.simulate_move, zip(iterative_arg, repeat(repeated_arg)))
 
-        return best_position
+        potential_moves = PotentialMoves(list_potential_moves)
+
+        # for position_index in board.available_positions_list: # available_moves is the list of all possible moves for the Smart player at time T
+        #
+        #     potential_move = self.simulate_move(position_index, board)
+        #
+        #     potential_moves.potential_moves.append(potential_move)
+
+        # get best move
+        best_move = potential_moves.best_potential_move
+
+        # win_probability_array[potential_position.row][potential_position.column] = move_score
+        #
+        # # Gets the best move
+        # if move_score > best_move_score:
+        #     best_move_score = move_score
+        #     best_position = potential_position
+
+        # board_probs = create_board_probs_from_list sjjhtd()
+        # print(best_move.score)
+        # print(win_probability_array.max())
+
+        return best_move.position
 
 # def select_best_position(self):
 #     current_game_board = self.board.copy()

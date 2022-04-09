@@ -136,5 +136,5 @@ if __name__ == '__main__':
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ])
     logging.getLogger().setLevel(logging.INFO)
-    my_game = AlignFive(number_of_players=2, with_bots=True).from_existing_board(test_board, generate_visual=True, with_bots=True)
+    my_game = AlignFive.from_existing_board(test_board, generate_visual=True, with_bots=True)
     my_game.play_game()
