@@ -109,7 +109,7 @@ class AlignFive(object):
 
         while not is_over:
             player = self.get_next_player()
-            logging.info(self.number_of_players)
+            logging.debug(self.number_of_players)
 
             player_move = player.make_move(self.game_board)
 
@@ -119,7 +119,7 @@ class AlignFive(object):
             elif self.game_board.is_position_available(player_move.position):
                 self.game_board.game_visual.draw_stone(player_move.position, color=player.color)
                 self.game_board.update_board(player_move)
-                print(self.game_board.board)
+                logging.debug(self.game_board.board)
 
                 is_over, outcome = self.is_game_over(player_move)
                 self.player_index += 1
