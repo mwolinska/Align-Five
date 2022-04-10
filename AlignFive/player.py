@@ -77,7 +77,12 @@ class RandomPlayer(AbstractPlayer):
         return Move(random_position, player_number=self.player_number)
 
 class SmartPlayer(AbstractPlayer):
-    def __init__(self, player_number: int, color: Color, n_workers: int = os.cpu_count(), n_simulations: int = 100):
+    def __init__(self,
+        player_number: int,
+        color: Color,
+        n_workers: int = int(os.environ.get("NUMBER_OF_WORKERS_TO_USE", default=os.cpu_count())),
+        n_simulations: int = 100,
+    ):
         super().__init__()
         self.player_number = player_number
         self.color = color

@@ -1,5 +1,5 @@
 import logging
-from typing import Tuple, List
+from typing import Tuple, List, Optional
 
 import numpy as np
 
@@ -10,16 +10,31 @@ from AlignFive.utils import Color, Position, Move
 
 class AlignFive(object):
 
-    def __init__(self, number_of_players: int = 2, with_bots: bool = False, generate_visual: bool = True):
+    def __init__(self,
+         number_of_players: int = 2,
+         with_bots: bool = False,
+         generate_visual: bool = True,
+         player_list: Optional[List[AbstractPlayer]] = None,
+    ):
         self.number_of_players = number_of_players
         self.with_bots = with_bots
         self.game_board = GameBoard(generate_visual=generate_visual)
-        self.player_list = self.create_list_of_players()
+
+        if player_list is None:
+            self.player_list = self.create_list_of_players()
+        else:
+            self.player_list = player_list
+
         self.player_index = 0
 
     @classmethod
-    def from_existing_board(cls, current_game_state_board: np.ndarray, with_bots=False, generate_visual=False):
-        game = cls(with_bots=with_bots, generate_visual=False)
+    def from_existing_board(cls,
+        current_game_state_board: np.ndarray,
+        with_bots=False,
+        generate_visual=False,
+        player_list: Optional[List[AbstractPlayer]] = None,
+    ):
+        game = cls(with_bots=with_bots, generate_visual=False, player_list=player_list)
         game.game_board = GameBoard.from_array(current_game_state_board, generate_visual=generate_visual)
         if generate_visual:
             game.game_board.game_visual.from_existing_board(current_game_state_board)
