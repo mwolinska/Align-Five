@@ -24,6 +24,14 @@ poetry install
 ```
 
 ### Using the package
+You can either play a single player game by running:
+```bash
+play_alone
+```
+or a two player game:
+```bash
+play_together
+```
 An example run would look like this.
 First, a clean board is displayed. 
 
@@ -49,3 +57,12 @@ the four outcomes is achieved
 
 * All the moves on the board have been taken and the 
 game is a draw
+
+
+### Benchmarking
+You can benchmark your computer by using the `benchmark` command.
+For more information about this, please type:
+```bash
+benchmark -h
+```
+
