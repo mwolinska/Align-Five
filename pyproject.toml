@@ -20,3 +20,7 @@ tqdm = "^4.64.0"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+run = 'AlignFive.cli:play_game'
+benchmark = 'AlignFive.cli:run_benchmarking'

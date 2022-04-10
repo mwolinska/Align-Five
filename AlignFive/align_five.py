@@ -129,6 +129,10 @@ class AlignFive(object):
 
         logging.info(outcome)
 
+def play_align_five_main():
+    logging.getLogger().setLevel(logging.INFO)
+    my_game = AlignFive() #.from_existing_board(test_board, generate_visual=True, with_bots=True)
+    my_game.play_game()
 
 if __name__ == '__main__':
     test_board = np.array([
