@@ -1,3 +1,5 @@
+import argparse
+import os
 import pathlib
 import time
 from collections import defaultdict
@@ -39,11 +41,14 @@ def plot_results(data_per_slot: Dict[int, Dict[str, List[float]]]):
         plt.plot(data["number_of_empty_slots"], data["elapsed_times"],
                  label=f"{number_of_workers_in_simulation} {worker_string}")
 
-    plot_folder = pathlib.Path("../../Plots/v2")
-    plot_folder.mkdir(exist_ok=True)
+    running_file = pathlib.Path(os.getcwd())
+
+    plot_folder = running_file / "Plots" / "v2"
+
+    plot_folder.mkdir(parents=True, exist_ok=True)
 
     total_number_of_slots_in_simulations = max(list(data_per_worker.values())[0]["number_of_empty_slots"])
-    plot_file = plot_folder / f"simulation_time_against_free_slots_{total_number_of_slots_in_simulations}_sacha.pdf"
+    plot_file = plot_folder / f"simulation_time_against_free_slots_{total_number_of_slots_in_simulations}.pdf"
 
     plt.title("Time taken to complete simulations against number of slots available")
     plt.xlabel("Number of slots available")
@@ -55,7 +60,6 @@ def plot_results(data_per_slot: Dict[int, Dict[str, List[float]]]):
 
 def benchmark_multiprocessing(starting_array: np.ndarray, number_of_extra_empty_slots: int, number_of_workers_to_benchmark: List[int]):
     # time computation for boards of increasing sizes
-
     data_per_slot = {}
 
     for number_of_slots in tqdm(range(1, number_of_extra_empty_slots + 1)):
@@ -84,8 +88,22 @@ def benchmark_multiprocessing(starting_array: np.ndarray, number_of_extra_empty_
 
     plot_results(data_per_slot)
 
+def benchmarking_main():
+    parser = argparse.ArgumentParser(
+        description="Benchmark your computer for against our code to figure out "
+                    "the number of workers to give to our SmartPlayer."
+    )
+    parser.add_argument("-w", "--number-of-workers-to-try", metavar='W', type=int, nargs='+',
+                        help='A number of worker to try', required=True)
 
-if __name__ == '__main__':
+    parser.add_argument("-s", "--maximum-number-of-empty-slots-try", metavar='S', type=int,
+                        help='The maximum number of empty slots to try in our benchmarking', required=True)
+
+    # parser.add_argument("-s", "--number-of-empty-slots-to-try", metavar='S', type=int, nargs='+',
+    #                     help='The number of empty slots to try in our benchmarking')
+
+    args = parser.parse_args()
+
     np.set_printoptions(4, suppress=True)
     test_array = np.array([
         [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1],
@@ -108,9 +126,7 @@ if __name__ == '__main__':
         [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
         [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1],
     ])
-    # worker_cases_benchmark = list(range(1, os.cpu_count()+1))
-    # for array_size in [5, 10, 20, 30, 50]:
-    #     benchmark_multiprocessing(test_array, array_size, worker_cases_benchmark)
-    worker_cases_benchmark = [4] #list(range(1, os.cpu_count()+1))
 
-    benchmark_multiprocessing(test_array, 50, worker_cases_benchmark)
+    worker_cases_benchmark = args.number_of_workers_to_try
+    for array_size in range(1, args.maximum_number_of_empty_slots_try + 1):
+        benchmark_multiprocessing(test_array, array_size, worker_cases_benchmark)
