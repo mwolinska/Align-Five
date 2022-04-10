@@ -22,5 +22,6 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-run = 'AlignFive.cli:play_game'
+play_together = 'AlignFive.cli:two_player_game'
+play_alone = 'AlignFive.cli:single_player_game'
 benchmark = 'AlignFive.cli:run_benchmarking'

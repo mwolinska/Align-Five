@@ -129,9 +129,14 @@ class AlignFive(object):
 
         logging.info(outcome)
 
-def play_align_five_main():
+def single_player_game_main():
     logging.getLogger().setLevel(logging.INFO)
-    my_game = AlignFive() #.from_existing_board(test_board, generate_visual=True, with_bots=True)
+    my_game = AlignFive(with_bots=True)
+    my_game.play_game()
+
+def two_player_game_main():
+    logging.getLogger().setLevel(logging.INFO)
+    my_game = AlignFive()
     my_game.play_game()
 
 if __name__ == '__main__':
