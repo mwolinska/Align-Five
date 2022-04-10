@@ -1,10 +1,8 @@
 import pytest
-import pygame
 
-from AlignFive.game_interface import GameWindow
 from AlignFive.utils import Click, Position
+from tests.variables_for_tests import test_visual_0
 
-test_visual_0 = GameWindow()
 
 @pytest.mark.parametrize(["func_input", "expected_value"],
     [
