@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "align-five"
+version = "0.0.1"
+description = ""
+authors = ["Marta <mswolinska@gmail.com>"]
+packages = [
+    { include = "AlignFive" },
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.10"
+numpy = "^1.22.3"
+matplotlib = "^3.5.1"
+pygame = "^2.1.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.1"
+tqdm = "^4.64.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+play_together = 'AlignFive.cli:two_player_game'
+play_alone = 'AlignFive.cli:single_player_game'
+benchmark = 'AlignFive.cli:run_benchmarking'

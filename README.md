@@ -13,20 +13,14 @@ To get started with this package, clone the repo
 ```bash
 git clone https://github.com/mwolinska/Align-Five
 ```
-Then make sure you are in teh right folder
+Then make sure you are in the right folder
 ```bash
 cd Align-Five
 ```
 
-Then set up and activate the virtual environment
+Then, simply install all the dependencies using [poetry](https://python-poetry.org).
 ```bash
-python3 -m venv ./venv
-source venv/bin/activate
-```
-
-Finally, install all the dependencies.
-```bash
-pip3 install -r requirements.txt
+poetry install
 ```
 
 ### Using the package
