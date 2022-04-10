@@ -71,8 +71,11 @@ def benchmark_multiprocessing(starting_array: np.ndarray, number_of_extra_empty_
 
             average_time = 0
             for i in range(10):
-                align_five = AlignFive.from_existing_board(benchmarking_array, with_bots=True)
-                align_five.player_list = [SmartPlayer(2, Color(255, 255, 255), n_workers=number_of_workers)]
+                align_five = AlignFive.from_existing_board(
+                    current_game_state_board=benchmarking_array,
+                    with_bots=True,
+                    player_list=[SmartPlayer(2, Color(255, 255, 255), n_workers=number_of_workers)],
+                )
 
                 tic = time.time()
                 align_five.player_list[0].make_move(align_five.game_board)
@@ -128,5 +131,5 @@ def benchmarking_main():
     ])
 
     worker_cases_benchmark = args.number_of_workers_to_try
-    for array_size in range(1, args.maximum_number_of_empty_slots_try + 1):
-        benchmark_multiprocessing(test_array, array_size, worker_cases_benchmark)
+    array_size = args.maximum_number_of_empty_slots_try
+    benchmark_multiprocessing(test_array, array_size, worker_cases_benchmark)
