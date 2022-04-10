@@ -8,3 +8,6 @@ pygame==2.1.2
 pyparsing==3.0.7
 pytest==7.1.1
 tomli==2.0.1
+
+matplotlib~=3.5.1
+tqdm~=4.64.0

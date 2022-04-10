@@ -18,7 +18,7 @@ Then make sure you are in teh right folder
 cd Align-Five
 ```
 
-Then set up and activate teh virtual environment
+Then set up and activate the virtual environment
 ```bash
 python3 -m venv ./venv
 source venv/bin/activate
@@ -42,10 +42,16 @@ The first move is made by the user playing white.
 Then the users alternate to play their moves until one of 
 the four outcomes is achieved
 * 5 stones of one colour are aligned in a row
+
 <img src="./Images/GameScreenshots/win_in_row.png" height="200">
+
 * 5 stones of one colour are aligned in a column
+
 <img src="./Images/GameScreenshots/win_in_column.png" height="200">
+
 * 5 stones of one colour are aligned across a diagonal
+
 <img src="./Images/GameScreenshots/win_in_diagonal.png" height="200">
+
 * All the moves on the board have been taken and the 
 game is a draw

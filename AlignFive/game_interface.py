@@ -1,5 +1,6 @@
 from typing import Optional
 
+import numpy as np
 import pygame
 
 from AlignFive.utils import find_index_of_closest_value, Click, Color, Position
@@ -59,10 +60,11 @@ class GameWindow(object):
                 x_coord = self.vertical_line_position_list[x_el]
                 for y_el in circle_marking_line_indexes:
                     y_coord = self.horizontal_line_position_list[y_el]
-                    pygame.draw.circle(self.screen,
-                       (0, 0, 0),
-                       (x_coord, y_coord),
-                       5,
+                    pygame.draw.circle(
+                        self.screen,
+                        (0, 0, 0),
+                        (x_coord, y_coord),
+                        5,
                     )
         pygame.display.flip()
 
@@ -99,6 +101,18 @@ class GameWindow(object):
         )
         pygame.display.flip()
 
+    @classmethod
+    def from_existing_board(cls, current_board: np.ndarray):
+        visual = cls()
+        for row_number in range(current_board.shape[0]):
+            for column_number in range(current_board[row_number].shape[0]):
+                if current_board[row_number][column_number] != 0:
+                    if current_board[row_number][column_number] == 1:
+                        stone_color = Color(0, 0, 0)
+                    else:
+                        stone_color = Color(255, 255, 255)
+                    test_position = Position(row_number, column_number)
+                    visual.draw_stone(test_position, stone_color)
 
 # if __name__ == '__main__':
 #     game_window = GameWindow(800, 800, 19, 19)
@@ -121,4 +135,3 @@ class GameWindow(object):
 #     print("Game ended early")
     # game_window.get_user_interaction(1, -1)
     # game_window.game_outcome(0)
-
