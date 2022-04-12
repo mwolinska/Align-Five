@@ -3,8 +3,10 @@ from typing import Tuple, List, Optional
 
 import numpy as np
 
-from AlignFive.board import GameBoard
-from AlignFive.player import Player, AbstractPlayer, SmartPlayer, RandomPlayer
+from AlignFive.interface.board import GameBoard
+from AlignFive.players.abstract_player import AbstractPlayer
+from AlignFive.players.human_player import Player
+from AlignFive.players.smart_player import SmartPlayer
 from AlignFive.utils import Color, Position, Move
 
 
@@ -161,6 +163,8 @@ if __name__ == '__main__':
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ])
-    logging.getLogger().setLevel(logging.INFO)
+
+    tic_tac_test = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    logging.getLogger().setLevel(logging.DEBUG)
     my_game = AlignFive.from_existing_board(test_board, generate_visual=True, with_bots=True)
     my_game.play_game()
