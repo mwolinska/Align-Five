@@ -2,7 +2,7 @@ import dataclasses
 from dataclasses import dataclass
 from typing import List
 
-from AlignFive.utils import Position
+from AlignFive.data_model.move_data_model import Position
 
 
 @dataclass

@@ -1,7 +1,7 @@
 import abc
 
 from AlignFive.interface.board import GameBoard
-from AlignFive.utils import Move
+from AlignFive.data_model.move_data_model import Move
 
 
 class AbstractPlayer(abc.ABC):

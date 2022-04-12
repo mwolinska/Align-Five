@@ -2,7 +2,7 @@ import random
 
 from AlignFive.interface.board import GameBoard
 from AlignFive.players.abstract_player import AbstractPlayer
-from AlignFive.utils import Color, Position, Move
+from AlignFive.data_model.move_data_model import Color, Position, Move
 
 
 class RandomPlayer(AbstractPlayer):

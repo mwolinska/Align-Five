@@ -3,7 +3,9 @@ from typing import Optional
 import numpy as np
 import pygame
 
-from AlignFive.utils import find_index_of_closest_value, Click, Color, Position
+from AlignFive.utils.game_window_utils import find_index_of_closest_value
+
+from AlignFive.data_model.move_data_model import  Click, Color, Position
 
 
 class GameWindow(object):

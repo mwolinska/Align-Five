@@ -4,7 +4,7 @@ from typing import List
 
 import numpy as np
 
-from AlignFive.utils import Move
+from AlignFive.data_model.move_data_model import Move
 
 
 class GameStatus(str, Enum):
@@ -31,5 +31,3 @@ class AbstractGame(abc.ABC):
 
     def has_player_won(self, move: Move):
         pass
-
-

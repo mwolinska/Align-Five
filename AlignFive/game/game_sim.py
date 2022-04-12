@@ -4,9 +4,9 @@ from typing import Optional
 
 import numpy as np
 
+from AlignFive.game.abstract_game import GameStatus, AbstractGame
 from AlignFive.interface.board import GameBoard
-from AlignFive.game import AbstractGame, GameStatus
-from AlignFive.utils import Move, Position
+from AlignFive.data_model.move_data_model import Move, Position
 
 
 class GameSim(AbstractGame):
@@ -26,6 +26,22 @@ class GameSim(AbstractGame):
 
     def get_copy(self):
         return copy.deepcopy(self)
+
+    def run_single_simulation(self) -> float:
+        game_copy = self.get_copy()
+        outcome, n_moves_till_end = game_copy.play_game()
+        outcome_score = self.outcome_to_int(outcome) / n_moves_till_end
+        return outcome_score
+
+    def simulate(self, number_of_simulations: int, first_position: Optional[Position]) -> float:
+        game_score_tally = 0
+        self.first_position = first_position
+        for i in range(number_of_simulations):
+            outcome_score = self.run_single_simulation()
+            game_score_tally += outcome_score
+
+        logging.info("The score is " + str(game_score_tally / number_of_simulations))
+        return game_score_tally / number_of_simulations
 
     def play_game(self):
         status = GameStatus.ongoing
@@ -56,22 +72,6 @@ class GameSim(AbstractGame):
         else:
             outcome = GameStatus.ongoing
         return outcome
-
-    def run_single_simulation(self) -> float:
-        game_copy = self.get_copy()
-        outcome, n_moves_till_end = game_copy.play_game()
-        outcome_score = self.outcome_to_int(outcome) / n_moves_till_end
-        return outcome_score
-
-    def simulate(self, number_of_simulations: int, first_position: Optional[Position]) -> float:
-        game_score_tally = 0
-        self.first_position = first_position
-        for i in range(number_of_simulations):
-            outcome_score = self.run_single_simulation()
-            game_score_tally += outcome_score
-
-        logging.info("The score is " + str(game_score_tally / number_of_simulations))
-        return game_score_tally / number_of_simulations
 
     @staticmethod
     def outcome_to_int(outcome):
@@ -106,3 +106,23 @@ class GameSim(AbstractGame):
                 return True
 
         return False
+    #
+    # def play_sequence(self, , first_position: Position[Optional]): # simulate
+    #     game_score_tally = 0
+    #     self.first_position = first_position
+    #
+    #     for position in self.game_board.available_positions_list:
+    #         outcome_score = self.play_moves_till_end_game()
+    #         game_score_tally += outcome_score
+    #
+    #     logging.info("The score is " + str(game_score_tally / number_of_simulations))
+    #     return game_score_tally / number_of_simulations
+    #
+    # def play_one_move(self) -> float: # run_one_simulation
+    #     game_copy = self.get_copy()
+    #     outcome, n_moves_till_end = game_copy.play_game()
+    #     outcome_score = self.outcome_to_int(outcome) / n_moves_till_end
+    #     return outcome_score
+    #
+    # def play_moves_till_end_game(self) -> : # play_game
+    #     pass

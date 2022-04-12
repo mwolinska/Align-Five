@@ -8,7 +8,7 @@ from AlignFive.game.game_sim import GameSim
 from AlignFive.players.abstract_player import AbstractPlayer
 from AlignFive.data_model.player_data_model import PotentialMove, PotentialMoves
 from AlignFive.players.random_player import RandomPlayer
-from AlignFive.utils import Color, Move, Position
+from AlignFive.data_model.move_data_model import Color, Move, Position
 
 
 class SmartPlayer(AbstractPlayer):
@@ -22,17 +22,11 @@ class SmartPlayer(AbstractPlayer):
         self.player_number = player_number
         self.color = color
         self.n_workers = n_workers
-        # self.simulation_times = [[], []]
         self.n_simulations = n_simulations
 
     def make_move(self, board: GameBoard) -> Move:
-        # tac = time.time()
         best_position = self.compute_best_position(board)
-        # tic = time.time()
-        # print(f"Elapsed time: {tic - tac}")
         best_move = Move(position=best_position, player_number=self.player_number)
-        # self.simulation_times[0].append(board.available_positions_list.shape[0])
-        # self.simulation_times[1].append((tic - tac))
         return best_move
 
     def simulate_move(self, position_index: int, board: GameBoard) -> PotentialMove:
@@ -47,9 +41,6 @@ class SmartPlayer(AbstractPlayer):
         return PotentialMove(position=potential_position, score=move_score)
 
     def compute_best_position(self, board: GameBoard) -> Optional[Position]:
-        # best_move_score = 0
-        # win_probability_array = np.ones([board.board.shape[0], board.board.shape[1]], dtype=float) * (- 1)
-
         fake_board = GameBoard.from_array(board.board.copy())
         iterative_arg = board.available_positions_list
         repeated_arg = fake_board

@@ -5,7 +5,7 @@ from typing import List
 import numpy as np
 
 from AlignFive.interface.game_window import GameWindow
-from AlignFive.utils import Position, Move, PositionIndex
+from AlignFive.data_model.move_data_model import Position, Move, PositionIndex
 
 if typing.TYPE_CHECKING:
     pass

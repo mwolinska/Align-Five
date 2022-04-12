@@ -7,7 +7,7 @@ from AlignFive.interface.board import GameBoard
 from AlignFive.players.abstract_player import AbstractPlayer
 from AlignFive.players.human_player import Player
 from AlignFive.players.smart_player import SmartPlayer
-from AlignFive.utils import Color, Position, Move
+from AlignFive.data_model.move_data_model import Color, Position, Move
 
 
 class AlignFive(object):

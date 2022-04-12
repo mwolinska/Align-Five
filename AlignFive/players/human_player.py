@@ -2,7 +2,7 @@ from typing import Optional
 
 from AlignFive.interface.board import GameBoard
 from AlignFive.players.abstract_player import AbstractPlayer
-from AlignFive.utils import Color, Move
+from AlignFive.data_model.move_data_model import Color, Move
 
 
 class Player(AbstractPlayer):
