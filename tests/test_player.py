@@ -1,4 +1,4 @@
-from AlignFive.player import Player
+from AlignFive.players.human_player import Player
 from AlignFive.utils import Color
 
 

@@ -9,8 +9,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from tqdm import tqdm
 
-from AlignFive.align_five import AlignFive
-from AlignFive.player import SmartPlayer
+from AlignFive.game.align_five import AlignFive
+from AlignFive.players.smart_player import SmartPlayer
 from AlignFive.utils import Color
 
 

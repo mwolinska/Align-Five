@@ -1,7 +1,7 @@
-from AlignFive.align_five import AlignFive
-from AlignFive.board import GameBoard
-from AlignFive.game_interface import GameWindow
-from AlignFive.player import Player
+from AlignFive.game.align_five import AlignFive
+from AlignFive.interface.board import GameBoard
+from AlignFive.interface.game_window import GameWindow
+from AlignFive.players.human_player import Player
 from AlignFive.utils import Color
 
 
@@ -26,5 +26,3 @@ test_player_2 = Player(2, Color(255, 255, 255))
 
 # Test GameWindow
 test_visual_0 = GameWindow()
-
-

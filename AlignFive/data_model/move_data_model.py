@@ -1,18 +1,12 @@
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Tuple
 
-import numpy as np
-
-
-def find_index_of_closest_value(click: int, allowed_positions_list: List[int]) -> int:
-    allowed_positions_array = np.asarray(allowed_positions_list)
-    closest_position_index = (np.abs(allowed_positions_array - click)).argmin()
-    return closest_position_index
 
 @dataclass
 class Click(object):
     x: int
     y: int
+
 
 @dataclass
 class Position(object):
@@ -27,6 +21,7 @@ class Position(object):
     def from_index(cls, index, n_columns:int):
         return cls((index // n_columns), (index % n_columns))
 
+
 @dataclass
 class PositionIndex(object):
     position_index: int
@@ -35,10 +30,12 @@ class PositionIndex(object):
     def from_position(cls, position: Position, n_columns: int):
         return position.row * n_columns + position.column
 
+
 @dataclass
 class Move(object):
     position: Position
     player_number: int
+
 
 @dataclass
 class Color(object):
@@ -49,6 +46,3 @@ class Color(object):
     @property
     def rgb(self) -> Tuple[int, int, int]:
         return self.r, self.g, self.b
-
-
-

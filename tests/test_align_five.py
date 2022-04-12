@@ -1,7 +1,7 @@
 import pytest
 
-from AlignFive.align_five import AlignFive
-from AlignFive.player import Player
+from AlignFive.game.align_five import AlignFive
+from AlignFive.players.human_player import Player
 from AlignFive.utils import Color, Position, Move
 from tests.variables_for_tests import test_game, test_player_2, test_array_0, test_array_1, test_array_2
 
@@ -56,5 +56,3 @@ def test_is_game_over(func_input, expected_value):
     is_over = game.is_game_over(move)
 
     assert is_over == expected_value
-
-

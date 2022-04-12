@@ -1,11 +1,10 @@
 import copy
 import logging
-import time
 from typing import Optional
 
 import numpy as np
 
-from AlignFive.board import GameBoard
+from AlignFive.interface.board import GameBoard
 from AlignFive.game import AbstractGame, GameStatus
 from AlignFive.utils import Move, Position
 

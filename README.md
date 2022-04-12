@@ -2,10 +2,10 @@
 
 ## Introduction
 This is a two player game, where the users play 
-either black or white stones. The objective of the game
-is to align 5 stones of the same colour in one row,
-column or across a diagonal. Players take alternating
-turns to place their stones on the board.
+either black or white stones on a  [Go](https://en.wikipedia.org/wiki/Go_(game)) board. 
+The objective of the game is to align 5 stones of the same colour in one row,
+column or across a diagonal. Players take alternating turns to place their stones 
+on the board.
 The game is played on a 19 x 19 Go board.
 
 ### Getting started with the package
@@ -23,12 +23,13 @@ Then, simply install all the dependencies using [poetry](https://python-poetry.o
 poetry install
 ```
 
+
 ### Using the package
-You can either play a single player game by running:
+You can either play a single player game (against a bot), where you play the first move, by running:
 ```bash
 play_alone
 ```
-or a two player game:
+or a two player game (black makes the first move):
 ```bash
 play_together
 ```
