@@ -4,6 +4,7 @@ import numpy as np
 import pygame
 
 from AlignFive.utils.game_window_utils import find_index_of_closest_value
+from AlignFive.data_model.move_data_model import Click, Color, Position
 
 from AlignFive.data_model.move_data_model import  Click, Color, Position
 

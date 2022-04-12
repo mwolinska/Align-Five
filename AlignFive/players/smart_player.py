@@ -27,6 +27,7 @@ class SmartPlayer(AbstractPlayer):
     def make_move(self, board: GameBoard) -> Move:
         best_position = self.compute_best_position(board)
         best_move = Move(position=best_position, player_number=self.player_number)
+
         return best_move
 
     def simulate_move(self, position_index: int, board: GameBoard) -> PotentialMove:

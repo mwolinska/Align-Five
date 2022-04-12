@@ -6,6 +6,7 @@ import numpy as np
 
 from AlignFive.game.abstract_game import GameStatus, AbstractGame
 from AlignFive.interface.board import GameBoard
+from AlignFive.game.abstract_game import AbstractGame, GameStatus
 from AlignFive.data_model.move_data_model import Move, Position
 
 
